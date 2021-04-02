@@ -1,0 +1,12 @@
+*
+!/.*
+.CFUserTextEncoding
+.DS_Store
+.*.zwc
+.*history
+
+# * includes .*/** so if we wanna take anything from subdirs, we gotta opt them in
+!.config/bat/config
+!.config/lsd/config
+!.github/README.md
+!.hammerspoon/**
