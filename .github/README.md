@@ -36,7 +36,7 @@ When I want to do messy `add -p`'s or `restore -p`'s (or just like a big old `di
 
 
 
-# :rainbow: :hammer: :spoon: :rainbow:
+## :rainbow: :hammer: :spoon: :rainbow:
 
 I have started playing with pushing out `Dock.app` , and  `Finder.app` for [uBar](https://brawersoftware.com/products/ubar) , [Path Finder](https://cocoatech.com/#/) and [Contexts](https://contexts.co/)
 
@@ -44,3 +44,18 @@ Much of this is leveraged to the end of having Maximum Rainbows unperturbed by p
 
 [Hammerspoon](https://www.hammerspoon.org/) is leveraged currently to the task of maintaining good rainbows and appropriate allocation of work space when my primary machine moves between behaving like a laptop and being connected to my absurd (and honestly kinda low res in practice, cause non HiDPI is painful actually) 49" widescreen [monitor](https://www.lg.com/us/monitors/lg-49WL95C-W-ultrawide-monitor)
 
+### Laptop 💻 Mode 
+
+When the internal display is detected (or in principle another 16:9 shaped monitor) things are arranged like this:
+
+<img width="720" alt="How things are laid out on 16:9 internal monitor" src="https://user-images.githubusercontent.com/43136/113379415-67e5b300-9347-11eb-82c1-e03fcfbe7066.png">
+
+### Workstation 🖥️ Mode
+
+When plugged into the B.A.M. things get kicked around by Lua to look like this instead:
+<img width="752" alt="How things are laid out on 32:9 external monitor" src="https://user-images.githubusercontent.com/43136/113379722-42a57480-9348-11eb-9b10-da4e53b00737.png">
+
+I also wrote some keyboard.io firmware that tries to match the wallpaper with the LEDs. You can also find [that](https://github.com/donaldguy/dotfiles/blob/canon/Code/Kaleidoscope/plugins/Kaleidoscope-LEDEffect-RainbowSwoop/src/kaleidoscope/plugin/LEDEffect-RainbowSwoop.cpp) in this repo
+:
+
+<img width="752" alt="Rainbow swoop keyboard.io Model 01 LEDs" src="https://user-images.githubusercontent.com/43136/113380098-4be31100-9349-11eb-86a9-8e8b67885505.jpg">
