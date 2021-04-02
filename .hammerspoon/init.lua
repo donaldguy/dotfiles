@@ -11,7 +11,7 @@ screenWatcher = hs.screen.watcher.new(function()
   if aspectRatio >= 1.6 and aspectRatio < 1.8  then  -- 16:9 ish
     s:desktopImageURL('file:///Users/donald/Pictures/wallpapers/16-9/rainbowswoop.png')
 
-    uBar:setSize(uBar.sizes.medium)
+    uBar:setSize(uBar.sizes.large)
     uBar:setPosition(uBar.positions.centerFloat)
     uBar:setRimless(false)
     uBar:relaunch()
