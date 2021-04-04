@@ -11,7 +11,7 @@ local firefox = {
 local BrowserConsole = {}
 
 function BrowserConsole:new()
-  local app = hs.appfinder.appFromName(firefox.appName)
+  local app = hs.application.get(firefox.appName)
   local bc = {}
 
   app:activate()
@@ -33,7 +33,10 @@ function BrowserConsole:new()
     assert(bc.spawnedBrowser)
   end
 
-  hs.eventtap.keyStroke({"cmd", "shift"}, "j", firefox.keystrokeDelay, app)
+  hs.eventtap.event.newKeyEvent({"cmd", "shift"}, "j",  true):post(app)
+  hs.timer.usleep(firefox.keystrokeDelay)
+  hs.eventtap.event.newKeyEvent({"cmd", "shift"}, "j", false):post(app)
+
   bc.window = app:focusedWindow()
   assert(bc.window:title() == "Browser Console")
 
@@ -63,8 +66,14 @@ function firefox:setDefaultZoom(zoomLevel)
 
   hs.pasteboard.callbackWhenChanged(function(_changed)
     browserConsole:focus()
-    hs.eventtap.keyStroke({"cmd"}, "v", self.keystrokeDelay, browserConsole:application())
-    hs.eventtap.keyStroke({}, hs.keycodes.map["return"], self.keystrokeDelay, browserConsole:application())
+
+    hs.eventtap.event.newKeyEvent({"cmd"}, "v",  true):post(browserConsole:application())
+    -- hs.timer.usleep(0)
+    hs.eventtap.event.newKeyEvent({"cmd"}, "v",  false):post(browserConsole:application())
+
+    hs.eventtap.event.newKeyEvent("return",  true):post(browserConsole:application())
+    -- hs.timer.usleep(0)
+    hs.eventtap.event.newKeyEvent("return", false):post(browserConsole:application())
 
     browserConsole:close()
     hs.pasteboard.setContents(clipboardToRestore)

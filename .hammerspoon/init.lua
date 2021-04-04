@@ -81,6 +81,17 @@ end)
 screenWatcher:start()
 spoon.ReloadConfiguration:start()
 
+hs.application = require('hs.application')
+hs.axuielement = require('hs.axuielement')
+hs.eventtap    = require('hs.eventtap')
+hs.keycodes    = require('hs.keycodes')
+hs.mouse       = require('hs.mouse')
+hs.pasteboard  = require('hs.pasteboard')
+hs.timer       = require('hs.timer')
+hs.window      = require('hs.window')
+
+hs.application.enableSpotlightForNameSearches(true)
+
 i = hs.inspect
 
 hs.console.setConsole("Config reloaded\n")

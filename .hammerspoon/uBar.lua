@@ -12,7 +12,7 @@ function uBar:relaunch()
   if app then
     local appPath = app:path()
     app:kill()
-    hs.timer.waitWhile(function() return hs.appfinder.appFromName("uBar") end, function()
+    hs.timer.waitWhile(function() return hs.application.get("uBar") end, function()
       hs.application.launchOrFocus(appPath)
     end, 0.0001)
   end
