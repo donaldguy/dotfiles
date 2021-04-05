@@ -5,10 +5,20 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-fpath=(/opt/homebrew/share/zsh/site-functions/  /opt/homebrew/share/zsh-completions $fpath)
+declare HOMEBREW_PATH
+case $(uname -m); in 
+  arm64)
+    HOMEBREW_PATH="/opt/homebrew"
+    ;;
+  x86_64)
+    HOMEBREW_PATH="/usr/local"
+    ;;
+esac
+
+fpath=($HOMEBREW_PATH/share/zsh/site-functions/ $HOMEBREW_PATH/share/zsh-completions $fpath)
 autoload -Uz compinit && compinit
 
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOMEBREW_PATH/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 groot() {
   cd "$(git rev-parse --show-toplevel)"
