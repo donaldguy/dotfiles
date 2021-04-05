@@ -6,6 +6,8 @@ local firefox = {
   zoomAdjustSnippetF = 'Cc["@mozilla.org/content-pref/service;1"].getService(Ci.nsIContentPrefService2).setGlobal(window.browsingContext.topChromeWindow.FullZoom.name, %.1f, Cu.createLoadContext())'
 }
 
+-- ----------------------------------------------------------------------------
+
 -- This console is only interactive if `devtools.chrome.enabled` is set to true
 -- in about:config / prefs.js
 local BrowserConsole = {}
@@ -59,6 +61,8 @@ function BrowserConsole:close()
     return self.window:close()
   end
 end
+
+-- ----------------------------------------------------------------------------
 
 function firefox:setDefaultZoom(zoomLevel)
   local browserConsole = BrowserConsole:new()
