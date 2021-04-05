@@ -70,8 +70,8 @@ trap print_summary EXIT
 
 relevant_files_in_git=(
   $(git ls-files -- all/ )
-  $(git ls-files -- "$HOSTNAME/" | grep -v "^$HOSTNAME/[A-Z]")
-  $(git ls-files -- "$HOSTNAME/" | grep "^$HOSTNAME/[A-Z]")
+  $(git ls-files -- "$HOSTNAME/" | grep "^$HOSTNAME/[A-Z]" || : )
+  $(git ls-files -- "$HOSTNAME/" | grep "^$HOSTNAME/[a-z]")
 )
 
 for gitfile in "${relevant_files_in_git[@]}"; do
