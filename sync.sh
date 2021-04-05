@@ -1,9 +1,22 @@
 #!/bin/bash
 
+set -euo pipefail
+
 #: installs hardlinks to the relevant files in this repo to home directory
 #: creating directory structure if needed, backing up and replacing any found
 
-set -euo pipefail
+#: The structure of this directory is
+#:   $host_dir/
+#:     $top_file
+#:     $top_dir/
+#:       **/
+#:         file
+#:
+#:  Where host_dir := 'all' | <hostname>
+#:  For both top and top_dir:
+#:     - git tracked copies elide leading '.' and this script adds it back
+#:     - EXCEPT when top_dir starts with a capital letter, in which case its
+#:       assumed literal.
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
@@ -57,19 +70,28 @@ trap print_summary EXIT
 
 relevant_files_in_git=(
   $(git ls-files -- all/ )
-  $(git ls-files -- "$HOSTNAME/")
+  $(git ls-files -- "$HOSTNAME/" | grep -v "^$HOSTNAME/[A-Z]")
+  $(git ls-files -- "$HOSTNAME/" | grep "^$HOSTNAME/[A-Z]")
 )
 
 for gitfile in "${relevant_files_in_git[@]}"; do
   host_dir="${gitfile%%/*}"
   dotfile="${gitfile#*/}"
 
+
   src_location="$gitfile"
-  dst_location="$HOME/$dotfile"
+
+  first_component="${dotfile%%/*}"
+
+  if echo "$first_component" | grep -q '^[A-Z]'; then
+    dst_location="$HOME/$dotfile"
+  else
+    dst_location="$HOME/.$dotfile"
+  fi
 
   if [[ -f "$dst_location" && "$dst_location" -ef "$src_location" ]]; then
     if [[ -z "$QUIET" ]]; then
-      printf "%s [%${#HOSTNAME}s] %s\n" $GREEN_CHECKMARK $host_dir $dotfile
+      printf "%s [%${#HOSTNAME}s] %s\n" "$GREEN_CHECKMARK" "$host_dir" "~/${dst_location#$HOME/}"
     fi
 
     in_place+=1
@@ -81,14 +103,14 @@ for gitfile in "${relevant_files_in_git[@]}"; do
     fi
     replaced+=("$dst_location")
 
-    printf "%s [%${#HOSTNAME}s] %s\n" $YELLOW_M "$host_dir" "$dotfile"
+    printf "%s [%${#HOSTNAME}s] %s\n" "$YELLOW_M" "$host_dir" "~/${dst_location#$HOME/}"
   else
     if [[ -z "$DRY_RUN" ]]; then
       mkdir -p "$(dirname $dst_location)"
       ln "$src_location" "$dst_location"
     fi
 
-    printf "%s [%${#HOSTNAME}s] %s\n" $RED_C $host_dir $dotfile
+    printf "%s [%${#HOSTNAME}s] %s\n" "$RED_C" $host_dir "~/${dst_location#$HOME/}"
     created+=1
   fi
 done
