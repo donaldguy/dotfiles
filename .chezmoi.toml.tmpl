@@ -1,0 +1,11 @@
+[data]
+  my_name  = "{{ promptString "Whats your name (like you'd give `git config --add user.name`)" }}"
+  my_email = "{{ promptString "Whats your e-mail adress (like you'd give `git config --add user.email`)" }}"
+
+  brew_prefix = "{{- if (eq .chezmoi.arch "arm64") -}}
+    /opt/homebrew
+  {{- else -}}
+    /usr/local
+  {{- end }}"
+
+  zsh_zdotdir = "{{ expandenv "${HOME}/.config/zsh"}}"

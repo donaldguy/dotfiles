@@ -1,0 +1,246 @@
+
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+tap "homebrew/cask-drivers"
+tap "homebrew/cask-fonts"
+cask "font-jetbrains-mono-nerd-font"
+
+#: NEEDED for `${ZDOTDIR}/.zshrc`.
+#----------------  Line numbers in dot_zshrc correspond ----------------------
+##= Completions
+brew "zsh-completions"         # Additional completion definitions for zsh
+
+
+##= Aliases
+brew "bat"     # cat: Clone of cat(1) with syntax highlighting and Git integration
+brew "chezmoi" #  cz: Manage your dotfiles across multiple diverse machines, securely
+brew "lsd"     #  ls: Clone of ls with colorful output, file type icons, and more
+tap "eth-p/software"     # for bat-extras-*
+  brew "bat-extras-batman" # man: Read system manual pages using bat as the manual page formatter
+brew "procs"  #   pstree: Modern replacement for ps written by Rust
+brew "neovim" # vi, vime: Ambitious Vim-fork focused on extensibility and agility
+
+##= Functions
+brew "git"    # for groot: cd to git repo root
+
+  brew "fzf"  # needed for zi: Command-line fuzzy finder written in Go
+brew "zoxide" # z, zq,zi: Shell extension to navigate your filesystem faster
+
+##= `fish`-y Fanciness ports from https://github.com/zsh-users
+brew "zsh-syntax-highlighting"      # Fish shell like syntax highlighting for zsh
+brew "zsh-history-substring-search" # Zsh port of Fish shell's history search
+
+#= Prompt
+brew "starship" # Cross-shell prompt for astronauts
+
+#--------------------- END ~/.zshrc   ----------------------
+
+#: NEEDED for `${ZDOTDIR}/.zshrc`.
+brew "git-delta" # Syntax-highlighting pager for git and diff output
+
+# Cross-platform Rust rewrite of the GNU coreutils. For at least timeout & realpath
+brew "uutils-coreutils"
+
+# other fancy rust cli utils, See Also: https://zaiste.net/posts/shell-commands-rust/
+brew "ripgrep"            # rg: Search tool like grep and The Silver Searcher
+brew "bat-extras-batgrep" # Quickly search through and highlight files using ripgrep
+brew "bat-extras-batdiff" # Diff a file against the current git index, or display the diff between two files
+
+brew "fd"       # Simple, fast and user-friendly alternative to find
+brew "sd"       # Intuitive find & replace CLI (like sed s//)
+brew "tealdeer" # tldr: Very fast implementation of tldr in Rust
+brew "tokei"    # Program that allows you to count code, quickly
+
+# Other CLI (interactive) developer tools
+brew "gh"   # GitHub command-line tool
+brew "glow" # Render markdown on the CLI
+brew "jq"   # Lightweight and flexible command-line JSON processor
+
+# Expected support systems
+brew "sqlite"      # Command-line interface for SQLite
+brew "imagemagick" # Tools and libraries to manipulate images in many formats
+
+# For making computers yell at other computers
+brew "wakeonlan"
+
+# ~GUI app clients
+cask "1password-cli" # Command-line helper for the 1Password password manager
+brew "mas"           # Mac App Store command-line interface
+brew "youtube-dl"    # Download YouTube videos from the command-line
+
+#--------------------- END CLI TOOLS ----------------------
+
+# Workflow Essentials
+cask "1password"   # Password manager that keeps all passwords secure behind one password
+cask "alfred"      # Application launcher and productivity software: https://www.alfredapp.com/
+cask "hammerspoon" # (mac Lua) Desktop automation application: https://www.hammerspoon.org/
+cask "iterm2"      # Great Terminal emulator: https://www.iterm2.com/
+cask "screens"     # Remote access (VNC) software focusing on usability: https://edovia.com/screens-mac/
+
+cask "bartender"   # Menu bar icon organizer: https://www.macbartender.com/
+cask "istat-menus" # System monitoring app: https://bjango.com/mac/istatmenus/
+#-------------------------------------------------------------------------------------------------------
+#    𝗕𝗮𝗿  File … Help           [Items] [️Below] [in] [R] ‹ [to] 🔋 [L] [Order]  📆 Eight o clock  🎛  🕗
+#-------------------------------------------------------------------------------------------------------
+
+# -- Notation: --
+# `S:N.` := "Nth from right on Sophia - my Intel 2016 MacBookPro13,2"
+# `L:N.` := "Nth from right on Lilith - my    M1 2020 MacBookAir10,1"
+# `B:N.` := "Nth from right, same on both"
+
+@hostname = %x{hostname -s}.chomp.downcase.to_sym
+def on(host); yield if host == @hostname; end
+
+# apps _on(:lilith)_ commented out BELOW are actually installed from Setapp
+# – but I've included how they would be installed if I licensed them that way
+
+# B:01. 🕗 : Notification Center: `defaults write com.apple.menuextra.clock IsAnalog -int 1`
+# B:02. 🎛 : Control Center
+
+# S:03. ⏯ : Streaming service + Video browser w/ PiP
+  mas "Friendly Streaming", id: 553245401 # (installed on Lilith, but not in menu bar)
+# S:04. 📻 : AirPlay reciever/[L: sender] for M1 -> Intel audio. Sometimes iOS -> Intel
+  cask "airfoil" # S: Satellite, L: /$/
+# S:05. 💠 : Universal Audio Apollo Twin Audio Interface driver, Intel only
+  # https://www.uaudio.com/uad/downloads/ ; could have sworn there was a cask, but guess not
+# //////////////////////////////////////////////////////////////////////
+# L:03. [ ▮] : https://slidepad.app/ from Setapp. https://setapp.com/
+
+# S:06. [Eight o clock/ @ 00 ] - iStat Fuzzy clock w/ seconds: `defaults write com.bjango.istatmenus6.extras Time_MenubarFormat '({ lines = 2; format = (("FUZZY"),("'"'@ '"'", "ss"));})'`
+# L:04. "
+# S:07. 📆 : Best calendar app https://flexibits.com/fantastical
+  mas "Fantastical", id: 975937182
+# L:05. "
+
+# S:8-12. More iStats.
+# L2R: 🔋 Time / % Network ↕️ ##K/ ##K, ◕ RAM , 📊 CPU, 🌦 Weather Highº/Lowº
+# L:6-10. "
+
+# S:13. 🔨: https://www.hammerspoon.org/ config & console menu item
+# S:14. ☼ : Tool to control external monitor brightness & volume
+on(:sophia) { cask "monitorcontrol" } # could do { cask "homebrew/cask-drivers/lg-onscreen-control" } but doesn't seem better
+# //////////////////////////////////////////////////////////////////////
+on(:lilith) do
+# L:11.  [🐦]: Twitter client: https://tapbots.com/tweetbot/mac/
+  mas "Tweetbot", id: 1384080005
+# L:12. (50%): Automatic time and productivity tracking app
+# cask "timing"
+# L:13.    ⠷ : Streaks habit tracker: https://streaksapp.com/
+  mas "Streaks", id: 1493327990
+# L:14. Task🕛: Session: Pomodoro timer: https://www.stayinsession.com/
+# mas "Session", id: 1521432881
+end
+
+#B<<.    ‹ : BARTENDER DIVIDER
+#B15.    🖥 : SwitchResX. Controls screen display settings
+cask "switchresx"
+#S16.    🧰: Prallels Toolbox; misc
+on(:sophia) { cask "parallels-toolbox" }
+# //////////////////////////////////////////////////////////////////////
+on(:lilith) do
+  cask "airbuddy"   # L:16. AirPods companion app
+  cask "1kc-razer"  # L:17. Open source color effects manager for Razer devices
+# cask "cleanshot"  # L:18. Screen capturing tool: https://getcleanshot.com/
+  cask "setapp"     # L:19. Collection of apps available by subscription: https://setapp.com/
+                    # L:20. 🔨: https://www.hammerspoon.org/ config & console menu item
+  cask "imazing"    # L:21. iOS deveice backup/ management application: https://imazing.com/
+  cask "adobe-creative-cloud" # 22. "Collection of apps and services for photography, design, video, web, and UX"
+end
+cask "dropbox"   # B:LAST. Client for the Dropbox cloud storage service: https://www.dropbox.com/
+
+
+#    ----------------------------------------------------|-------------- %$$%$%$-----
+#    |   /-----\   /-----\  /-----\  /-----\  /-----\    |  |==|____    |#######|   |
+#    |   |  D  |   |  O  |  |  C  |  |  K  |  |  S  |    |  [   ||  ]   |#######|   |
+#    |   \_____/   \_____/  \_____/  \_____/  \_____/    |  [__ \/__]    \#####/    |
+#    |______*__________________*________*________*_______|__________________________|
+#
+# Except spoilers neither Dock actually looks like my carefully crafted ASCII art because
+# Sophia uses a right side pinned Dock and well, as for lilith
+#
+on(:lilith) do
+# cask "sidenotes" # Note-taking application pinned at screen left    ; https://www.apptorium.com/sidenotes
+# cask "ubar"     # Dock replacement / Taskbar at screen bottom (left); https://brawersoftware.com/products/ubar
+  cask "contexts" # Cmd-Tab replacement w/ window list sidebar at screen right; https://contexts.co/
+end
+
+# But this is still the section for what GOES in the docks.
+
+# Preceding Top to Bottom: You can see that this machine is largely an Audio/Video player
+on(:sophia) do
+                      #  1. Finder
+  cask "luna-display" #  2. Use your iPad as a wireless second display (like Sidecar, but w/ touch)
+                      #  3. Safari
+                      #  4. Its iTerm! https://www.iterm2.com/ -
+  cask "visual-studio-code" # this isn't supposed to be a dev machine but ¯\_(ツ)_/¯
+  cask "pocket-casts" #  5. Podcast platform; https://play.pocketcasts.com/
+                      #  6. Music.app
+                      #  7. Friendly Streaming (S:03. from menu bar)
+                      #  8. AirFoil Satellite  (S:04. from menu bar)
+                      #  9. UAD Meter & Control Panel (S:05! from menu bar)
+                      # 10. System Preferences
+
+end
+
+# Preceding Left to Right across uBar: We travel across the rainbow while moving from
+on(:lilith) do
+  #  1. The uBar "Start" button - in the menu currently is Sophia.app - a quick launch of Screens to Sophia
+  #  2. Adobe Premeire - For my Youtube Channel I _totally_ work on: https://www.youtube.com/channel/UC2trjdFsuVhcBm0w03LJ6yA
+  #  3. https://obsidian.md/ ; "Knowledge base that works on top of a local folder of plain text Markdown files"
+  cask "obsidian"
+  #  4. https://culturedcode.com/things/ ; "award-winning personal task manager that helps you achieve your goals. "
+  mas "Things", id: 904280696
+  #  5. https://www.mozilla.org/firefox/developer/; Open Source web browser w/ CSS Grid utils & other fancy stuff. Also BLUE
+  cask "firefox-developer-edition"
+  #  6. It's Tweetbot - remember from the menu bar? (L:11.)  https://tapbots.com/tweetbot/mac/
+  #  7. Adobe Photoshop; Its here and I'm trying to get better acquainted with it, but secretly I still go to
+  mas "com.pixelmatorteam.pixelmator.x", id: 1289583905 # a lot of the time if I need to do a quick thing.
+  #  8. https://code.visualstudio.com/; The Open source text editor from Your Friends™ at Microsoft®.
+  cask "visual-studio-code" # I have it colored like its the Insiders build, but it isn't 🤫
+  #  9. Its iTerm! 🖤💚🖤🖤🖤; https://www.iterm2.com/
+  # 10. Facebook Messenger ... its also in https://slidepad.app/
+  mas "Messenger", id: 1480068668
+  # 11. HEY.com email client; this is ALSO also in Slideapp
+  cask "hey"
+  # 12. Books.app https://youtu.be/-9dEdYgfG-U?t=35
+  # 13. Ableton Suite 11 ... but the beta for some reason ; https://ableton.centercode.com/welcome/
+  # 14. Music.app
+  cask "pocket-casts" # 15. Pocketcasts Again - cause sometimes you want a progress bar on your closer screen!
+end
+
+## OTHER CASKS
+
+## Webcam:
+on(:sophia) {} # We can use logitech capture: https://support.logi.com/hc/en-nz/articles/360025141614
+# but in M1 land
+on(:lilith) do
+  # best we can do is
+  cask "logitech-camera-settings"
+  # and if we wanna get fancy its into
+  cask "obs"
+end
+# in either case if there _was_ streaming we might want some audio multiplexing
+cask "loopback"
+
+## Keyboard:
+cask "chrysalis" # keyboard.io Model 01
+
+## Mouse
+on(:sophia) { cask "homebrew/cask-drivers/logitech-options" }
+# but on Lilith we needed more Rainbows and have the Razer setup (see: L:17.)
+# but also until I get around to reflashing that maybe, its helpful to keep
+on(:lilith) { cask "scroll-reverser" } # to let Touchpads "natural" scroll but mousewheel "reversed"
+
+## Better to have it and not need it than need it and not have it?
+cask "xquartz"
+cask "latest" # these things aren't all great at auto-updates
+
+# extra browsers:
+on(:lilith) do
+  cask "google-chrome" # cause sometimes you gotta chromedrive
+  cask "brave-browser" # and sometimes you wanna split the difference
+  cask "qutebrowser"  # and sometimes you are just a nerd
+end
+
+# somehow this is not a complete inventory but oh well

@@ -1,0 +1,35 @@
+# = Environment
+# - in `$HOME/.zshenv`:
+#   * `ZDOTDIR="{{ .zsh_zdotdir }}"`
+# - in `${ZDOTDIR}/.zshenv`:
+#   * `HOMEBREW_PREFIX="{{ .brew_prefix }}"`
+#     + `path=($path "${HOMEBREW_PREFIX}/{bin,sbin}")`
+#     + `MANPATH=$HOMEBREW_PREFIX/share/man:$MANPATH`,`INFOPATH=$HOMEBREW_PREFIX/share/info:$INFOPATH`
+#   * EDITOR & VISUAL
+#   * PAGER
+
+#= Completions
+fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions/" $fpath "$HOMEBREW_PREFIX/share/zsh-completions")
+autoload -Uz compinit && compinit
+
+#= Aliases: Upgrade
+alias cat="bat"    \
+      cz="chezmoi" \
+      ls="lsd"     \
+      ll="ls -l"  la="ls -A"  lal="ls -Al"  lla="ls -lA" \
+      man="batman" \
+      pstree="procs --tree"   tree="lsd --tree" \
+      vi="nvim"               vim="nvim"
+
+#= Functions
+groot() { cd "$(git rev-parse --show-toplevel)" }
+
+# z, zq, zi: https://github.com/ajeetdsouza/zoxide
+eval "$(zoxide init zsh)"
+
+#= `fish`-y Fanciness ports from https://github.com/zsh-users
+source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "$HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+
+#= Prompt: https://starship.rs/
+eval "$(starship init zsh)"

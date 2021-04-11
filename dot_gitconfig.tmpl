@@ -1,0 +1,28 @@
+[core]
+    pager = delta
+
+[color]
+    ui = auto
+
+[init]
+    defaultBranch = canon
+
+[interactive]
+    diffFilter = delta --color-only
+
+[pull]
+    rebase = true
+
+[rebase]
+    autoStash = true
+
+[user]
+    name =  {{ .my_name  }}
+    email = {{ .my_email }}
+
+[filter "lfs"]
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+
