@@ -1,3 +1,4 @@
+# vim: ft=zsh
 eval $({{ .brew_prefix }}/bin/brew shellenv)
 export VISUAL="$(whence -p nvim vim vi nano pico | head -1)"
 export EDITOR="$VISUAL"
