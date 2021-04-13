@@ -1,0 +1,16 @@
+# vim: fmt=toml
+[data]
+  my_name  = {{ quote .my_name  }}
+  my_email = {{ quote .my_email }}
+
+  asdf_version = "0.8.0"
+
+  {{ $brewPrefix := "" -}}
+  {{- if (eq .chezmoi.arch "arm64") -}}
+  {{- $brewPrefix = "/opt/homebrew" -}}
+  {{- else -}}
+  {{- $brewPrefix = "/usr/local" -}}
+  {{- end -}}
+  brew_prefix = {{ quote $brewPrefix }}
+
+  zsh_zdotdir = {{ expandenv "${HOME}/.config/zsh" | quote }}

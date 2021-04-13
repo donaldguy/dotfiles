@@ -1,0 +1,4 @@
+#!/bin/sh
+set -xeu
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v{{ .asdf_version }}
+ln -sf ~/.asdf/completions/_asdf  $HOMEBREW_PREFIX/share/zsh/site-functions/

@@ -1,11 +1,9 @@
+# vim: fmt=toml
+#
+# This config is incomplete and will be replaced/augment by application of the
+#  _real_ dot_config/chezmoi/chezmoi.tmpl
+#
+# This is the best I can do while the init command does not load sourceState (and therefore ingores .chezmoitemplates)
 [data]
-  my_name  = "{{ promptString "Whats your name (like you'd give `git config --add user.name`)" }}"
-  my_email = "{{ promptString "Whats your e-mail adress (like you'd give `git config --add user.email`)" }}"
-
-  brew_prefix = "{{- if (eq .chezmoi.arch "arm64") -}}
-    /opt/homebrew
-  {{- else -}}
-    /usr/local
-  {{- end }}"
-
-  zsh_zdotdir = "{{ expandenv "${HOME}/.config/zsh"}}"
+  my_name =  {{ promptString "Whats your name (like you'd give `git config --add user.name`)" | quote }}
+  my_email = {{ promptString "Whats your e-mail adress (like you'd give `git config --add user.email`)" | quote }}

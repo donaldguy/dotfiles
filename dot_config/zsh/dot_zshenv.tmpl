@@ -2,4 +2,8 @@
 eval $({{ .brew_prefix }}/bin/brew shellenv)
 export VISUAL="$(whence -p nvim vim vi nano pico | head -1)"
 export EDITOR="$VISUAL"
-export PAGER="$(whence -p less) --quit-if-one-screen --hilite-search --LONG-PROMPT --RAW-CONTROL-CHARS --no-init"
+declare -x "PAGER=$(whence -p less) --quit-if-one-screen --hilite-search --LONG-PROMPT --RAW-CONTROL-CHARS --no-init"
+
+if [[ -f $HOME/.asdf/asdf.sh ]]; then
+  source $HOME/.asdf/asdf.sh
+fi

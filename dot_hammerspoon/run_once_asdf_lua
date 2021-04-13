@@ -1,0 +1,17 @@
+#!/bin/zsh
+
+set -euo pipefail
+
+if [[ ! -d /Applications/Hammerspoon.app ]]; then
+  brew install --cask Hammerspoon
+fi
+
+HAMMERSPOON_LUA_VERSION="$(cd /Applications/Hammerspoon.app/Contents && \
+  grep 'define LUA_VERSION_\(MAJOR\|MINOR\|RELEASE\)\b' Frameworks/LuaSkin.framework/Headers/lua.h | \
+  grep -o '\d\+' | paste -s -d '.' - )"
+
+[[ -d ~/.asdf/plugins/lua ]] || asdf plugin add lua
+[[ -d ~/.asdf/installs/lua/${HAMMERSPOON_LUA_VERSION} ]] || asdf install lua $HAMMERSPOON_LUA_VERSION
+asdf global lua $HAMMERSPOON_LUA_VERSION
+
+lua -v || grep "^Lua ${HAMMERSPOON_LUA_VERSION}" || (echo "Expected: \"Lua ${HAMMERSPOON_LUA_VERSION}\"\nGot \"$(lua -v)\""; exit 1)
