@@ -14,6 +14,7 @@ brew "zsh-completions"         # Additional completion definitions for zsh
 
 
 ##= Aliases
+brew "ripgrep" # rg: Search tool like grep and The Silver Searcher
 brew "bat"     # cat: Clone of cat(1) with syntax highlighting and Git integration
 brew "chezmoi" #  cz: Manage your dotfiles across multiple diverse machines, securely
 brew "lsd"     #  ls: Clone of ls with colorful output, file type icons, and more
@@ -45,7 +46,6 @@ brew "git-lfs"   # Git extension for versioning large files
 brew "uutils-coreutils"
 
 # other fancy rust cli utils, See Also: https://zaiste.net/posts/shell-commands-rust/
-brew "ripgrep"            # rg: Search tool like grep and The Silver Searcher
 brew "bat-extras-batgrep" # Quickly search through and highlight files using ripgrep
 brew "bat-extras-batdiff" # Diff a file against the current git index, or display the diff between two files
 
@@ -197,10 +197,11 @@ on(:lilith) do
   #  4. https://culturedcode.com/things/ ; "award-winning personal task manager that helps you achieve your goals. "
   mas "Things", id: 904280696
   #  5. https://www.mozilla.org/firefox/developer/; Open Source web browser w/ CSS Grid utils & other fancy stuff. Also BLUE
-  cask "firefox-developer-edition"
+  tap "homebrew/cask-versions"
+    cask "firefox-developer-edition"
   #  6. It's Tweetbot - remember from the menu bar? (L:11.)  https://tapbots.com/tweetbot/mac/
   #  7. Adobe Photoshop; Its here and I'm trying to get better acquainted with it, but secretly I still go to
-  mas "com.pixelmatorteam.pixelmator.x", id: 1289583905 # a lot of the time if I need to do a quick thing.
+  mas "Pixelmator Pro", id: 1289583905 # a lot of the time if I need to do a quick thing.
   #  8. https://code.visualstudio.com/; The Open source text editor from Your Friends™ at Microsoft®.
   cask "visual-studio-code" # I have it colored like its the Insiders build, but it isn't 🤫
   #  9. Its iTerm! 🖤💚🖤🖤🖤; https://www.iterm2.com/

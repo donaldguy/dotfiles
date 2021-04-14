@@ -1,29 +1,33 @@
 # vim: ft=gitconfig
 [core]
-    pager = delta
+  pager = delta
 
 [color]
-    ui = auto
+  ui = auto
 
 [init]
-    defaultBranch = canon
+  defaultBranch = canon
 
 [interactive]
-    diffFilter = delta --color-only
+  diffFilter = delta --color-only
 
 [pull]
-    rebase = true
+  rebase = true
 
 [rebase]
-    autoStash = true
+  autoStash = true
 
 [user]
-    name =  {{ .my_name  }}
-    email = {{ .my_email }}
+  name =  {{ .my_name }}
+  email = {{ .my_email }}
 
 [filter "lfs"]
-    required = true
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
 
+[alias]
+  amend = commit --amend --reset-author
+  amendf = commit --amend --reset-author --no-edit
+	pend = diff --cached

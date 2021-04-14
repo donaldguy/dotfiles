@@ -14,10 +14,11 @@ fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions/" $fpath "$HOMEBREW_PREFIX/sha
 autoload -Uz compinit && compinit
 
 #= Aliases: Upgrade
-alias cat="bat"    \
+alias f="rg"      ag="rg" \
+      cat="bat"    \
       cz="chezmoi" \
       ls="lsd"     \
-      ll="ls -l"  la="ls -A"  lal="ls -Al"  lla="ls -lA" \
+      l="ls" ll="ls -l"  la="ls -A"  lal="ls -Al"  lla="ls -lA" \
       man="batman" \
       pstree="procs --tree"   tree="lsd --tree" \
       vi="nvim"               vim="nvim"
@@ -34,3 +35,7 @@ source "$HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substrin
 
 #= Prompt: https://starship.rs/
 eval "$(starship init zsh)"
+
+#= Keymaps
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
