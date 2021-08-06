@@ -1,0 +1,67 @@
+/* move tabs to the bottom */
+body > box {
+  -moz-box-ordinal-group: 2;
+}
+
+/* move macOS butttons back into place*/ 
+/* .titlebar-buttonbox-container {
+  transform: translateY(calc(-100vh + 36px + 3px));
+  width: 80px;
+  margin-right: -80px;
+  -moz-box-ordinal-group: 2 !important;;
+} */
+
+/* hide new tab buttons, & spacers */
+.titlebar-buttonbox-container, .titlebar-spacer, #new-tab-button, #tabs-newtab-button {
+  visibility: collapse;
+}
+
+#tabbrowser-arrowscrollbox[overflowing=true][scrolledtostart=true] {
+  margin-left: -30px;
+}
+
+#tabbrowser-tabs {
+  overflow-x: hidden;
+}
+
+#tabbrowser-arrowscrollbox[overflowing=true][scrolledtoend=true] {
+  margin-right: -70px;
+  padding-right: 35px;
+}
+
+/* b/c this is on bottom, point up */
+#alltabs-button {
+  list-style-image: url("chrome://global/skin/icons/arrow-up.svg") !important;
+}
+
+
+/* #nav-bar:focus-within {
+  transform: translateY(calc(-90vh));
+} */
+
+:root:not([customizing]) #navigator-toolbox:not(:focus-within) #nav-bar {
+  max-height: 0;
+  min-height: 0!important;
+  opacity: 0;
+}
+
+#navigator-toolbox:focus-within {
+  visibility: visible;
+}
+
+#navigator-toolbox::after {
+  display: none !important;
+}
+
+#navigator-toolbox:not(:hover):not(:focus-within) #toolbar-menubar > * {
+  background-color: rgb(232, 232, 231);
+}
+
+#main-window[sizemode="maximized"] #content-deck {
+  padding-top: 8px;
+}
+
+.tabbrowser-tab:not(:hover) .tab-close-button {
+  display: none;
+}
+
