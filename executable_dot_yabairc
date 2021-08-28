@@ -1,0 +1,109 @@
+#!/usr/bin/env zsh
+
+declare -r YABAIRC=$0
+
+function get_display_aspect_ratio {
+  case $(yabai -m query --displays --display mouse | jq '.frame | (.w)/(.h) | round') in
+    (2) echo "16:9" ;;
+    (4) echo "32:9" ;;
+    (*) echo "something:whacky" ;;
+  esac
+}
+
+function get_space_num_managed_windows {
+ yabai -m query --windows --space mouse | \
+   jq 'map(select(.visible == 1 and .floating == 0)) |
+    # deal with how hidden applications apparently still
+    # have "visible" windows
+    if all(.split == "none") then
+      1
+    else
+      map(select(.split != "none")) | length
+    end'
+}
+
+function maybe_center_space {
+  if [[ $(get_display_aspect_ratio) == "32:9" ]]; then
+    case $(get_space_num_managed_windows) in
+      (<0-1>) yabai -m space --padding abs:6:4:800:800 ;;
+      (<2-4>) yabai -m space --padding abs:6:4:400:400 ;;
+      (*)     yabai -m space --padding abs:6:4:6:6     ;;
+    esac
+  else
+    yabai -m space --padding abs:6:4:4:4
+  fi
+}
+
+function config_rules {
+  yabai -m rule --add app=SideNotes manage=off
+  yabai -m rule --add app=Session   manage=off
+  yabai -m rule --add app=Slidepad  manage=off
+}
+
+function config_signals {
+  for signal (
+    application_launched application_terminated
+    application_hidden application_visible
+    window_created window_destroyed window_minimized window_deminimized
+    space_changed
+    display_resized system_woke
+  ); do
+    yabai -m signal --add event=$signal \
+      action="$YABAIRC maybe_center_space" \
+      label="maybe_center_space-on-$signal"
+  done
+}
+
+function config_main {
+  if [[ $SHLVL > 2 ]]; then
+    # yabai was run interactively, not via brew services
+    echo "Running interactively: skipping automatic SA load"
+    echo "Enabling debug output"
+
+    yabai -m config debug_output on
+  else
+    sudo yabai --load-sa
+  fi
+
+  config_rules
+
+  # global settings
+  yabai -m config mouse_follows_focus          off
+  yabai -m config focus_follows_mouse          autoraise
+  yabai -m config window_placement             second_child
+  yabai -m config window_topmost               off
+  yabai -m config window_shadow                off
+  yabai -m config window_opacity               off
+  yabai -m config active_window_opacity        1.0
+  yabai -m config normal_window_opacity        0.90
+  yabai -m config window_border                off
+  yabai -m config window_border_width          6
+  yabai -m config active_window_border_color   0xeef12f39
+  yabai -m config normal_window_border_color   0x9900bcdd
+  yabai -m config insert_feedback_color        0xffd75f5f
+  yabai -m config split_ratio                  0.50
+  yabai -m config auto_balance                 off
+  yabai -m config mouse_modifier               ctrl
+  yabai -m config mouse_action1                move
+  yabai -m config mouse_action2                resize
+  yabai -m config mouse_drop_action            swap
+
+  # general space settings
+  yabai -m config layout                       bsp
+  yabai -m config window_gap                   06
+
+  if pgrep -q "Übersicht"; then
+    yabai -m config external_bar                 main:0:34
+    osascript -e 'tell application id "tracesOf.Uebersicht" to refresh widget id "simple-bar-spaces-jsx"'
+  fi
+
+  maybe_center_space
+  config_signals
+}
+
+if [[ $# == 0 ]]; then
+  config_main
+else
+  $1
+fi
+
