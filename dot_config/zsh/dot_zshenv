@@ -1,0 +1,40 @@
+# shellcheck shell=bash
+# vim: ft=zsh
+
+source ${ZDOTDIR}/utils.zsh
+source ${ZDOTDIR}/log.zsh
+
+function ,reset_path() {
+  ,log debug "path reset called; dropping $(typeset -m path)"
+
+  path=()
+  __eval_output_if_exists /usr/libexec/path_helper -s
+  __eval_output_if_exists /opt/homebrew/bin/brew shellenv
+  __source_if_exists "$HOME/.asdf/asdf.sh"
+  __source_if_exists "$HOME/.cargo/env"
+}
+
+function zhsenv_main() {
+  ,reset_path
+
+  for preference in nvim vim vi nano pico; do
+    local e
+    e="$(whence -p $preference)"
+    if [[ -n "$e" ]]; then
+      declare VISUAL=e
+      break;
+    fi
+  done
+
+  if [[ -v VISUAL ]]; then
+    declare EDITOR="$VISUAL"
+    export VISUAL EDITOR
+  else
+    ,print_error warn "Could not locate preferred editor. Current settings are VISUAL='${VISUAL}' EDITOR='${EDITOR}'"
+  fi
+
+  declare -x "PAGER=$(whence -p less) --quit-if-one-screen --hilite-search --LONG-PROMPT --RAW-CONTROL-CHARS --no-init"
+}
+
+__do_func_once zhsenv_main # to avoid rerunning in nested shells
+unfunction     zhsenv_main # to avoid leaking the function itself out of this file
