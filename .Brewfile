@@ -1,3 +1,4 @@
+# vim: syntax=ruby
 #0 _meta:
 %w[bundle services].each { |hbt| tap "homebrew/#{hbt}"}
 brew 'mas' # Mac App Store command-line interface
