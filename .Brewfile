@@ -138,6 +138,7 @@ setapp 'Dash'
 cask 'visual-studio-code'
   vscode 'oderwat.indent-rainbow'
   vscode 'vscodevim.vim'
+  vscode 'chrislajoie.vscode-modelines'
 
   %w[python debugpy vscode-pylance].each { |m| vscode "ms-python.#{m}"}
   vscode 'tamasfe.even-better-toml'
