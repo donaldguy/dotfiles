@@ -1,8 +1,7 @@
 # vim: syntax=ruby
-#0 _meta:
 %w[bundle services].each { |hbt| tap "homebrew/#{hbt}"}
 brew 'mas' # Mac App Store command-line interface
-# add  brew_from_tap(), setapp()
+# add  brew_from_tap(), setapp(), font()
 require_relative '.brew_bundle_additions.rb'
 
 #===================================================
@@ -23,8 +22,10 @@ cask 'imazing'
 # OS Feature Augmentation:
 ## menu bar
 ### _meta
-cask   'bartender'               # for filtering / layout management
-mas    'Spaced', id: 1666327168  # for sort of visual seperation I prefer
+cask 'bartender'               # for filtering / layout management
+cask 'jordanbaird-ice'
+mas  'Spaced', id: 1666327168  # for sort of visual seperation I prefer
+cask 'swiftbar'
 ### left to right on my ultrawide:
 cask   'istat-menus'  # for active resource monitoring widgets
                       # cpu, memory, network, disk
@@ -51,7 +52,7 @@ cask 'qlmarkdown'              # rendered markdown files
 ## global hotkey responders:
 cask   'contexts'    # for improved ⌘-Tab, ⌘-` experience + sidebar
 
-#cask 'alfred'     # for better-than-Spotlight launchbar experience (A)
+cask 'alfred'     # for better-than-Spotlight launchbar experience (A)
 cask 'raycast'     # for better-than-Spotlight launchbar experience (B)
 
 setapp 'Paste'         # clipboard history syncing with iOS devices
@@ -88,7 +89,13 @@ cask 'firefox'
 cask 'iterm2'
 mas  'Prompt', id: 1594420480
 # _shells & shell-extensions
-brew 'atuin' # for cross-device shell history syncing and serch
+brew 'atuin'  # for cross-device shell history syncing and serch
+brew 'starship' # prompt: see https://starship.rs
+brew 'zoxide' # shell-history informed auto-jump
+brew 'zsh-autosuggestions'
+brew 'zsh-autopair'
+brew 'zsh-syntax-highlighting'
+brew 'zsh-completions'
 
 # all/text files:
 ## search
@@ -107,13 +114,21 @@ brew 'bat'
 brew 'wget'
 brew 'xh'
 
-## json
+## json, etc.
 brew 'jq'
 brew 'jless'
+brew 'yj'
+
+## containers
+brew 'podman'
+brew 'docker' # cli-only
 
 # programming languages & source code
+brew 'chezmoi' # dotfile management
+
 ## _toolchain version management
 brew 'mise'
+brew 'rustup-init'
 
 ## build tools
 brew 'autoconf'
@@ -121,6 +136,10 @@ brew 'pkg-config'
 
 ## git helpers
 brew 'gh'
+
+# processes
+brew 'htop'
+brew 'watch'
 
 #---------------------------------------------------
 # Dev tools (GUI):
@@ -146,6 +165,10 @@ cask 'zed'
 
 # file management
 cask 'transmit'
+cask 'fork' # a git-client sort of like Tower
+
+# containers
+cask 'podman-desktop'
 
 # gui evaluation
 setapp 'Sip'        # for color sampling and pallete composition
@@ -155,6 +178,9 @@ setapp 'PixelSnap'  # for on-screen measurement
 # General Audiences
 #---------------------------------------------------
 # Productivity:
+## bookmarks
+cask 'raindropio'
+
 ## calendaring
 mas 'Fantastical', id: 975937182 # best calendar
 mas 'Parcel', id: 639968404      # package tracking
@@ -162,7 +188,16 @@ mas 'Parcel', id: 639968404      # package tracking
 ## planning
 setapp 'GoodTask' # enhanced Reminders task workflows
 setapp 'MindNode' # "mind map" diagraming
+
+## notes / markdown
+cask 'obsidian'
 setapp 'NotePlan' # bullet journaling etc.
+cask 'sidenotes'
+cask 'typora'
+
+## finance and such
+cask 'copilot'
+setapp 'Soulver'
 
 ## Time-management
 setapp 'Timing'   # active application/file monitoring
@@ -186,8 +221,8 @@ cask   'latest'
 #===================================================
 # Assets & Support
 #===================================================
-# Fonts:
-cask 'font-lilex-nerd-font'
+font 'lilex', nerd_font: true
+font 'junicode' # for its ᛞ mostly
 
 # Libraries:
 ## installed explicitly to serve mise's ruby(s)
