@@ -13,11 +13,13 @@ require_relative '.brew_bundle_additions.rb'
 cask 'betterdisplay' # for adaptive resolution & quick access
 cask 'flux'          # for eyestrain reduction
 
-## mouse:
-cask 'scroll-reverser'
+## keyboard
+cask   'karabiner-elements'
 
 ## iDevices:
 cask 'imazing'
+
+cask 'loupedeck'
 
 # OS Feature Augmentation:
 ## menu bar
@@ -70,6 +72,7 @@ cask 'hammerspoon'
 #===================================================
 # _Essential utilities:
 cask   '1password'
+cask   '1password-cli'
 setapp 'CleanShot X' #for vastly better screenshot experiences
 
 # Browsers:
@@ -88,6 +91,7 @@ cask 'firefox'
 # _terminal(s)
 cask 'iterm2'
 mas  'Prompt', id: 1594420480
+cask 'wezterm'
 # _shells & shell-extensions
 brew 'atuin'  # for cross-device shell history syncing and serch
 brew 'starship' # prompt: see https://starship.rs
@@ -97,6 +101,9 @@ brew 'zsh-autopair'
 brew 'zsh-syntax-highlighting'
 brew 'zsh-completions'
 
+# help
+brew 'tealdeer'
+
 # all/text files:
 ## search
 brew 'ripgrep'
@@ -104,6 +111,7 @@ brew 'fd'
 brew 'fzf'
 
 ## stream-filter
+brew 'moreutils'
 brew 'sd'
 
 ## viewing
@@ -148,7 +156,7 @@ brew 'watch'
 mas  'Developer',  id: 640199958
 cask 'sf-symbols'
 mas  'TestFlight', id: 899247664
-mas  'Xcode',      id: 497799835
+#mas 'Xcode',      id: 497799835 # on beta
 
 # documentation
 setapp 'Dash'
@@ -161,6 +169,8 @@ cask 'visual-studio-code'
 
   %w[python debugpy vscode-pylance].each { |m| vscode "ms-python.#{m}"}
   vscode 'tamasfe.even-better-toml'
+
+  vscode 'redhat.vscode-xml'
 cask 'zed'
 
 # file management
@@ -204,6 +214,7 @@ setapp 'Timing'   # active application/file monitoring
 setapp 'Time Out' # agressive break timer/reminder/enforcer
 
 # Media
+cask 'native-access'
 cask 'pocket-casts'
 
 # Reading:
